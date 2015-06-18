@@ -35,50 +35,54 @@ public class MainActivityTest {
 
 	@Before
 	public void setUp() throws Exception {
+		//init Mockito
 		initMocks(this);
 
+		//declare a Robolectric activityController.
 		mMainActivityActivityController = Robolectric.buildActivity(MainActivity.class);
 		mActivitySubject = mMainActivityActivityController.get();
 
-		//inject the mock-presenter in the activity.
+		//and inject the mock-presenter in the activity.
 		mActivitySubject.withPresenter(mPresenterMock);
 	}
 
 	@Test
 	public void mainActivity_initialize_presenter_TriggeredOnce() throws Exception {
 
-
-		//perform the activity lifecycle until onCreate
+		//When perform the activity lifecycle until onCreate.
 		mMainActivityActivityController.create(mBundleMock);
 
+		//Then verify initialize triggered once in presenter.
 		Mockito.verify(mPresenterMock, Mockito.times(1)).initialize(mActivitySubject, new MvpState(mBundleMock));
 	}
 
 	@Test
 	public void mainActivity_start_presenter_TriggeredOnce() throws Exception {
 
-		//perform the activity lifecycle until onStart
+		//When perform the activity lifecycle until onStart.
 		mMainActivityActivityController.create().start();
 
+		//Then verify start triggered once in presenter.
 		Mockito.verify(mPresenterMock, Mockito.times(1)).start();
-
 	}
 
 	@Test
 	public void mainActivity_on_save_presenter_state_Triggered() throws Exception {
 
-		//perform the activity lifecycle until OnSaveInstanceState
+		//When perform the activity lifecycle until OnSaveInstanceState.
 		mMainActivityActivityController.create().start().resume().pause().saveInstanceState(mBundleMock);
 
+		//Then verify onSaveInstanceState triggered at least once in presenter.
 		Mockito.verify(mPresenterMock, Mockito.atLeastOnce()).onSaveInstanceState(new MvpState(mBundleMock));
 	}
 
 	@Test
 	public void mainActivity_stop_presenter_Triggered() throws Exception {
-		
-		//perform the activity lifecycle until stop
+
+		//When perform the activity lifecycle until stop.
 		mMainActivityActivityController.create().start().resume().pause().saveInstanceState(mBundleMock).stop();
 
+		//Then verify stop triggered in presenter.
 		Mockito.verify(mPresenterMock, Mockito.times(1)).stop();
 	}
 
