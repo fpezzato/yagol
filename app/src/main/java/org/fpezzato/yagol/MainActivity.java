@@ -6,12 +6,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.common.base.Preconditions;
+import com.google.common.collect.ArrayTable;
 
 import org.fpezzato.yagol.mvp.MvpState;
 
 public class MainActivity extends AppCompatActivity implements MainActivityView {
 
 	private MainActivityPresenter mPresenter;
+	MatrixView mMatrixView;
 
 	public MainActivity withPresenter(MainActivityPresenter presenter) {
 		this.mPresenter = presenter;
@@ -22,9 +24,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-		if(mPresenter == null){
+		if (mPresenter == null) {
 			mPresenter = new MainActivityPresenterImpl();
 		}
+		mMatrixView = (MatrixView) findViewById(R.id.activity_main_matrix);
 
 		getPresenter().initialize(this, new MvpState(savedInstanceState));
 	}
@@ -37,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState ) {
+	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		getPresenter().onSaveInstanceState(new MvpState(outState));
 	}
@@ -75,4 +78,8 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 	}
 
 
+	@Override
+	public void drawMatrix(ArrayTable<Integer, Integer, Boolean> matrix) {
+		mMatrixView.setData(matrix.toArray(Boolean.class));
+	}
 }

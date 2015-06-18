@@ -12,4 +12,6 @@ public interface MvpPresenter<VIEW extends MvpView, STATE extends MvpState> {
 	void start();
 
 	void stop();
+
+	VIEW getMvpView();
 }
