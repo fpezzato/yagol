@@ -61,4 +61,13 @@ public class MvpState {
 		return mOutState.getSerializable(key);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		return  ((MvpState)o).getOutState().equals(getOutState());
+	}
+
+	@Override
+	public int hashCode() {
+		return getOutState().hashCode();
+	}
 }

@@ -26,4 +26,20 @@ dependencies {
     compile 'com.google.guava:guava:18.0'
     testCompile 'junit:junit:4.12'
     testCompile 'org.mockito:mockito-core:1.9.5'
+
+    testCompile('org.robolectric:robolectric:3.0-rc3') {
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
+    testCompile('org.robolectric:shadows-support-v4:3.0-rc1') {
+        exclude group: 'commons-logging', module: 'commons-logging'
+        exclude group: 'org.apache.httpcomponents', module: 'httpclient'
+    }
+    //testCompile 'org.easytesting:fest:1.0.16'
+    testCompile ('com.squareup.assertj:assertj-android:1.0.0'){
+        exclude group: 'com.android.support', module:'support-annotations'
+    }
+    //https://github.com/square/assertj-android/issues/150
+    testCompile project.files("$project.buildDir/intermediates/exploded-aar/com.squareup.assertj/assertj-android/1.0.0/classes.jar")
+
 }

@@ -1,41 +1,50 @@
 package org.fpezzato.yagol;
 
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
+
+import com.google.common.base.Preconditions;
 
 import org.fpezzato.yagol.mvp.MvpState;
 
 public class MainActivity extends AppCompatActivity implements MainActivityView {
 
-	MainActivityPresenter mPresenter;
+	private MainActivityPresenter mPresenter;
+
+	public MainActivity withPresenter(MainActivityPresenter presenter) {
+		this.mPresenter = presenter;
+		return this;
+	}
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+		if(mPresenter == null){
+			mPresenter = new MainActivityPresenterImpl();
+		}
 
-		mPresenter = new MainActivityPresenterImpl();
-		mPresenter.initialize(this, new MvpState(savedInstanceState));
+		getPresenter().initialize(this, new MvpState(savedInstanceState));
 	}
 
 	@Override
 	protected void onStart() {
 		super.onStart();
-		mPresenter.start();
+		Preconditions.checkNotNull(mPresenter, "please call withPresenter()");
+		getPresenter().start();
 	}
 
 	@Override
-	public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-		super.onSaveInstanceState(outState, outPersistentState);
-		mPresenter.onSaveInstanceState(new MvpState(outState));
+	public void onSaveInstanceState(Bundle outState ) {
+		super.onSaveInstanceState(outState);
+		getPresenter().onSaveInstanceState(new MvpState(outState));
 	}
 
 	@Override
 	protected void onStop() {
-		mPresenter.stop();
+		getPresenter().stop();
 		super.onStop();
 	}
 
@@ -61,9 +70,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 		return super.onOptionsItemSelected(item);
 	}
 
-	@Override
-	protected void onDestroy() {
-		mPresenter = null;
-		super.onDestroy();
+	public MainActivityPresenter getPresenter() {
+		return mPresenter;
 	}
+
+
 }
