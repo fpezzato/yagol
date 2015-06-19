@@ -17,6 +17,7 @@ public class MatrixView extends View {
 
 	Boolean[][] mData;
 	Paint mPaint;
+	Paint mGuideliinesPaint;
 	int mZoomLevel = 7;
 
 	public MatrixView(Context context) {
@@ -35,6 +36,11 @@ public class MatrixView extends View {
 		//TODO - set the color from the outside.
 		mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mPaint.setColor(getResources().getColor(android.R.color.black));
+
+		mGuideliinesPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
+		mGuideliinesPaint.setColor(getResources().getColor(android.R.color.holo_green_light));
+		mGuideliinesPaint.setStrokeWidth(2);
+
 	}
 
 	@Override
@@ -49,6 +55,7 @@ public class MatrixView extends View {
 	@Override
 	protected void onDraw(Canvas canvas) {
 		super.onDraw(canvas);
+		drawGuidelines(canvas);
 		Boolean current;
 		for (int i = 0; i < mData.length - 1; i++) {
 			for (int j = 0; j < mData[i].length - 1; j++) {
@@ -58,6 +65,13 @@ public class MatrixView extends View {
 				}
 			}
 		}
+	}
+
+	private void drawGuidelines(Canvas canvas) {
+		canvas.drawLine(0, 0, canvas.getWidth(), 0, mGuideliinesPaint);
+		canvas.drawLine(0, 0,0, canvas.getHeight(), mGuideliinesPaint);
+		canvas.drawLine(0, canvas.getWidth(), canvas.getHeight(), canvas.getWidth(), mGuideliinesPaint);
+		canvas.drawLine(canvas.getHeight(),0,canvas.getHeight(), canvas.getWidth(), mGuideliinesPaint);
 	}
 
 	@VisibleForTesting

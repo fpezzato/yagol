@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.test.suitebuilder.annotation.MediumTest;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -44,5 +45,10 @@ public class MatrixViewTest {
 		Mockito.verify(canvasMock, Mockito.never()).drawPoint(2, 0, paintMock);
 		Mockito.verify(canvasMock, Mockito.never()).drawPoint(0, 2, paintMock);
 		Mockito.verify(canvasMock, Mockito.never()).drawPoint(2, 2, paintMock);
+	}
+
+	@After
+	public void tearDown() throws Exception {
+		mMatrixView = null;
 	}
 }

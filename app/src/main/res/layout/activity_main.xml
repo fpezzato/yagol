@@ -6,11 +6,18 @@
               tools:context=".MainActivity">
 
     <TextView
-        android:text="@string/hello_world"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+        android:text="@string/main_activity_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        style="@style/Base.TextAppearance.AppCompat.Title"
+        android:gravity="center_horizontal"
+        />
 
-    <org.fpezzato.yagol.MatrixView android:id="@+id/activity_main_matrix" android:layout_width="0dp" android:layout_height="0dp"/>
+    <org.fpezzato.yagol.MatrixView android:id="@+id/activity_main_matrix" android:layout_width="0dp" android:layout_height="0dp"
+        android:layout_gravity="center_horizontal"
+        />
 
 
 </LinearLayout>
