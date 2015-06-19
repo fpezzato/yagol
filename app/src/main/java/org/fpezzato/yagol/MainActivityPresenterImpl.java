@@ -7,7 +7,6 @@ import org.fpezzato.yagol.biz.GolEngine;
 import org.fpezzato.yagol.mvp.BaseMvpPresenter;
 import org.fpezzato.yagol.mvp.MvpState;
 
-import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -53,17 +52,16 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 			//Range<Integer> columns = Range.closed(0, 100);
 			//mMatrix = ArrayTable.create(ContiguousSet.create(rows, DiscreteDomain.integers()), ContiguousSet.create(columns, DiscreteDomain.integers()));
 
-			mMatrix = new Boolean[200][200];
+			mMatrix = new Boolean[100][100];
 			/*Arrays.fill(mMatrix[0],false);
 
 			Arrays.fill(mMatrix[1],false);
 			Arrays.fill(mMatrix[2],false); */
-/*
 			//pulsar
-			mMatrix[0][1] =  true;
+			/*mMatrix[0][1] =  true;
 			mMatrix[1][1] =  true;
-			mMatrix[2][1] =  true;*/
-
+			mMatrix[2][1] =  true;
+*/
 			//Glider
 			mMatrix[0][0] =  true;
 			mMatrix[0][2] =  true;
@@ -71,7 +69,10 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 			mMatrix[1][2] =  true;
 			mMatrix[2][1] =  true;
 
-			Random r= new Random();
+
+			/*
+
+			/*Random r= new Random();
 			for(int i = 0; i < 100;i++){
 
 				int i1 = r.nextInt(180);
@@ -85,7 +86,7 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 				mMatrix[i1][i2] = true;
 				mMatrix[i3][i4] = true;
 				mMatrix[i5][i6] = true;
-			}
+			}*/
 		}
 	}
 
