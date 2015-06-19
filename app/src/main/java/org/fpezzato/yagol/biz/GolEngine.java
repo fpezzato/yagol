@@ -3,13 +3,7 @@ package org.fpezzato.yagol.biz;
 
 import android.support.annotation.VisibleForTesting;
 
-import com.google.common.base.Function;
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ArrayTable;
-import com.google.common.collect.FluentIterable;
-import com.google.common.collect.Table.Cell;
-
-import static com.google.common.base.Optional.fromNullable;
 
 /**
  * Created by francesco on 17/06/2015.
@@ -23,33 +17,56 @@ public class GolEngine {
 	 * Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 	 */
 
-	ArrayTable<Integer, Integer, Boolean> mSwapTable;
+	public Boolean[][] computeGeneration(final Boolean[][] matrix) {
+		Preconditions.checkNotNull(matrix);
 
-	public ArrayTable<Integer, Integer, Boolean> computeGeneration(final ArrayTable<Integer, Integer, Boolean> currentState) {
-		Preconditions.checkNotNull(currentState);
-		if (mSwapTable == null) {
-			mSwapTable = ArrayTable.create(currentState);
-		}
-		FluentIterable.from(currentState.cellSet()).transform(new Function<Cell<Integer, Integer, Boolean>, Void>() {
+		int sizeX = matrix.length;
+		int sizeY = matrix[0].length;
+
+
+	/*	FluentIterable.from(currentState.cellSet()).transform(new Function<Cell<Integer, Integer, Boolean>, Void>() {
 			@Override
 			public Void apply(Cell<Integer, Integer, Boolean> input) {
-				int neighboursCount = computeNeighboursCount(currentState, input);
+				int neighboursCount = computeNeighboursCount(currentState.toArray(Boolean.class), input);
 				boolean isAlive = input.getValue() != null ? input.getValue() : false;
 				boolean alive = computeRule1(isAlive, neighboursCount)
-					&& computeRule2(isAlive, neighboursCount)
+					&&
+				computeRule2(isAlive, neighboursCount)
 					&& computeRule3(isAlive, neighboursCount)
 					&& computeRule4(isAlive, neighboursCount);
 				mSwapTable.put(input.getRowKey(), input.getColumnKey(), alive);
 				return null;
 			}
-		}).size();
+		}).size();*/
 
-		return mSwapTable;
+
+		Boolean[][] next = new Boolean[sizeX][sizeY];  // empty board
+		for (int i = 0; i < sizeX; i++) {     // loops through x-axis for computing the next generation
+			for (int k = 0; k < sizeY; k++) { // loops through y-axis
+				int neighboursCount = computeNeighboursCount(matrix, i, k);
+				boolean isAlive = matrix[i][k] != null ? matrix[i][k] : false;
+				/*boolean alive = computeRule1(isAlive, neighboursCount)
+					||
+					computeRule2(isAlive, neighboursCount)
+					|| computeRule3(isAlive, neighboursCount)
+					|| computeRule4(isAlive, neighboursCount);*/
+				boolean alive = isAlive;
+				if (neighboursCount > 3  ||  neighboursCount < 2)
+					alive = false;
+				else if (neighboursCount == 3)
+					alive = true;
+				/*else
+					tempCells[row][col] = cells[row][col];*/
+				next[i][k] = alive;
+			}
+		}
+
+
+		return next;
 
 	}
 
-
-	@VisibleForTesting
+/*	@VisibleForTesting
 	public boolean computeRule1(boolean isAlive, int neighboursCount) {
 		return isAlive && !(neighboursCount < 2);
 	}
@@ -57,34 +74,36 @@ public class GolEngine {
 
 	@VisibleForTesting
 	public boolean computeRule2(boolean isAlive, int neighboursCount) {
-		return isAlive && (neighboursCount == 2 || neighboursCount == 3);
+		return isAlive && neighboursCount == 2 || neighboursCount == 3;
 	}
-
 
 	@VisibleForTesting
 	public boolean computeRule3(boolean isAlive, int neighboursCount) {
-		return isAlive && !(neighboursCount > 3);
+		return  (isAlive && (neighboursCount > 3))?false:true;
 	}
 
 
 	@VisibleForTesting
 	public boolean computeRule4(boolean isAlive, int neighboursCount) {
-		return !isAlive && neighboursCount == 3;
-	}
+		return isAlive || (!isAlive && neighboursCount == 3);
+	}*/
 
 
 	@VisibleForTesting
-	public int computeNeighboursCount(ArrayTable<Integer, Integer, Boolean> matrix, Cell<Integer, Integer, Boolean> cell) {
-		int count = 0;
-		for (int i = cell.getRowKey() - 1; i <= cell.getRowKey() + 1; i++) {
-			for (int j = cell.getColumnKey() - 1; j <= cell.getColumnKey() + 1; j++) {
-				if (!(i < 0 || j < 0)) {
-					count += fromNullable(matrix.at(i, j)).or(false)
-						? 1 : 0;
+	public int computeNeighboursCount(Boolean[][] matrix, int x, int y) {
+		int result = 0;
+		if (matrix.length > 0 && matrix[0].length > 0) {
+			for (int i = x - 1; i <= x + 1; i++) {
+				for (int j = y - 1; j <= y + 1; j++) {
+					if (! ( (i==x && j==y) || i < 0 || j < 0 || i > matrix.length - 1 || j > matrix[0].length - 1)) {
+						result += matrix[i][j] != null && matrix[i][j]
+							? 1 : 0;
+					}
 				}
 			}
 		}
-		return count;
+		return result;
 	}
+
 
 }

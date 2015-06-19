@@ -1,7 +1,5 @@
 package org.fpezzato.yagol;
 
-import com.google.common.collect.ArrayTable;
-
 import org.fpezzato.yagol.mvp.MvpView;
 
 /**
@@ -9,5 +7,5 @@ import org.fpezzato.yagol.mvp.MvpView;
  */
 public interface MainActivityView extends MvpView {
 
-	void drawMatrix(ArrayTable<Integer, Integer, Boolean> matrix);
+	void drawMatrix(Boolean[][] matrix);
 }

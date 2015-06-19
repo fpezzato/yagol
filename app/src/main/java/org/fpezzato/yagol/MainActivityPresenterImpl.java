@@ -1,11 +1,7 @@
 package org.fpezzato.yagol;
 
 import android.os.Handler;
-
-import com.google.common.collect.ArrayTable;
-import com.google.common.collect.ContiguousSet;
-import com.google.common.collect.DiscreteDomain;
-import com.google.common.collect.Range;
+import android.util.Log;
 
 import org.fpezzato.yagol.biz.GolEngine;
 import org.fpezzato.yagol.mvp.BaseMvpPresenter;
@@ -21,7 +17,7 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 
 	public static final String KEY_MATRIX = MainActivityPresenterImpl.class.getCanonicalName() + ";KEY_MATRIX";
 
-	private ArrayTable<Integer, Integer, Boolean> mMatrix;
+	private Boolean[][] mMatrix;
 
 	private GolEngine mGolEngine;
 
@@ -35,6 +31,9 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 			handler.post(new Runnable() {
 				@Override
 				public void run() {
+					Log.d("->MainActivityP", "tick");
+					mMatrix = mGolEngine.computeGeneration(mMatrix);
+					getMvpView().drawMatrix(mMatrix);
 				}
 			});
 		}
@@ -46,16 +45,33 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 		mGolEngine = new GolEngine();
 		if (state.containsKey(KEY_MATRIX)) {
 			//TODO: not the pourpose of this app. Working with serializable to save dev-time.
-			mMatrix = (ArrayTable<Integer, Integer, Boolean>) state.getSerializable(KEY_MATRIX);
+			//mMatrix = (ArrayTable<Integer, Integer, Boolean>) state.getSerializable(KEY_MATRIX);
 		} else {
 			//FIXME - just demo code
-			Range<Integer> rows = Range.closed(0, 1000);
-			Range<Integer> columns = Range.closed(0, 1000);
-			mMatrix = ArrayTable.create(ContiguousSet.create(rows, DiscreteDomain.integers()), ContiguousSet.create(columns, DiscreteDomain.integers()));
+			//Range<Integer> rows = Range.closed(0, 100);
+			//Range<Integer> columns = Range.closed(0, 100);
+			//mMatrix = ArrayTable.create(ContiguousSet.create(rows, DiscreteDomain.integers()), ContiguousSet.create(columns, DiscreteDomain.integers()));
 
-			for (int i = 0; i < 90; i++) {
-				mMatrix.put(i, i, true);
-			}
+			mMatrix = new Boolean[100][100];
+			/*Arrays.fill(mMatrix[0],false);
+
+			Arrays.fill(mMatrix[1],false);
+			Arrays.fill(mMatrix[2],false); */
+/*
+			//pulsar
+			mMatrix[0][1] =  true;
+			mMatrix[1][1] =  true;
+			mMatrix[2][1] =  true;*/
+
+			//Glider
+			mMatrix[0][0] =  true;
+			mMatrix[0][2] =  true;
+			mMatrix[1][1] =  true;
+			mMatrix[1][2] =  true;
+			mMatrix[2][1] =  true;
+
+
+
 		}
 	}
 
@@ -70,14 +86,13 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 	public void start() {
 		getMvpView().drawMatrix(mMatrix);
 
-		timer.schedule(timerTask, INTERVAL);
+		timer.schedule(timerTask, INTERVAL, INTERVAL);
 	}
 
 	@Override
 	public void stop() {
 
 	}
-
 
 
 }

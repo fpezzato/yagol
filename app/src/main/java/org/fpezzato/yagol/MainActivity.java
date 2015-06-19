@@ -6,7 +6,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.google.common.base.Preconditions;
-import com.google.common.collect.ArrayTable;
 
 import org.fpezzato.yagol.mvp.MvpState;
 
@@ -79,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 
 
 	@Override
-	public void drawMatrix(ArrayTable<Integer, Integer, Boolean> matrix) {
-		mMatrixView.setData(matrix.toArray(Boolean.class));
+	public void drawMatrix( Boolean[][] matrix) {
+		mMatrixView.setData(matrix);
 	}
 }

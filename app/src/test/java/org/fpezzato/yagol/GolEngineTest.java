@@ -2,8 +2,6 @@ package org.fpezzato.yagol;
 
 import android.test.suitebuilder.annotation.SmallTest;
 
-import com.google.common.collect.Table;
-
 import org.fpezzato.yagol.biz.GolEngine;
 import org.junit.Before;
 import org.junit.Test;
@@ -11,10 +9,6 @@ import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 /**
  * Created by francesco on 17/06/2015.
@@ -36,7 +30,7 @@ public class GolEngineTest {
 		mSubject = new GolEngine();
 	}
 
-	@Test
+	/*@Test
 	public void rule1_live_cellshould_die_tooFewNeighbours0() {
 		assertFalse(mSubject.computeRule1(true, 0));
 	}
@@ -74,30 +68,105 @@ public class GolEngineTest {
 	@Test
 	public void rule4_deal_cellshould_die_four_live_neighbours() {
 		assertFalse(mSubject.computeRule4(false, 4));
-	}
-
+	}*/
+/*
 	private Table.Cell<Integer, Integer, String> getLiveCell(int row, int column) {
 		Table.Cell liveCell = mock(Table.Cell.class);
 		when(liveCell.getRowKey()).thenReturn(1);
 		when(liveCell.getColumnKey()).thenReturn(1);
 		when(liveCell.getValue()).thenReturn(true);
 		return liveCell;
-	}
+	}*/
 
 	@Test
 	public void neighbours_reveal_upperleft_neighbour() {
-		Table table = mock(Table.class);
+		//Table table = mock(Table.class);
 
 		//given a [1,1] cell
-		Table.Cell cell = getLiveCell(1, 1);
+		//Table.Cell cell = getLiveCell(1, 1);
 
-		when(table.get(0, 0)).thenReturn(true);
+		//when(table.get(0, 0)).thenReturn(true);
 
 		//than
-		assertEquals(1, mSubject.computeNeighboursCount(table, cell));
+		Boolean[][] mock = new Boolean[3][3];
+		 mock[0][1]=true;
+		 mock[1][1]=true;
+		 mock[2][1]=true;
+
+		assertEquals(2, mSubject.computeNeighboursCount(mock, 0,0));
 	}
 
 	@Test
+	public void neighbours_reveal_upperleft_neighbour2() {
+		//Table table = mock(Table.class);
+
+		//given a [1,1] cell
+		//Table.Cell cell = getLiveCell(1, 1);
+
+		//when(table.get(0, 0)).thenReturn(true);
+
+		//than
+		Boolean[][] mock = new Boolean[3][3];
+		mock[0][1]=true;
+		mock[1][1]=true;
+		mock[2][1]=true;
+
+		assertEquals(1, mSubject.computeNeighboursCount(mock, 2,1));
+	}
+
+	@Test
+	public void neighbours_reveal_upperleft_neighbour3() {
+		//Table table = mock(Table.class);
+
+		//given a [1,1] cell
+		//Table.Cell cell = getLiveCell(1, 1);
+
+		//when(table.get(0, 0)).thenReturn(true);
+
+		//than
+		Boolean[][] mock = new Boolean[3][3];
+		mock[0][1]=true;
+		mock[1][1]=true;
+		mock[2][1]=true;
+
+		assertEquals(1, mSubject.computeNeighboursCount(mock, 0,1));
+	}
+
+
+/*	@Test
+	public void neighbours_reveal_upperleft_neighbour4() {
+		//Table table = mock(Table.class);
+
+		//given a [1,1] cell
+		//Table.Cell cell = getLiveCell(1, 1);
+
+		//when(table.get(0, 0)).thenReturn(true);
+
+		//than
+
+
+		assertFalse( mSubject.computeRule3(true,4));
+	}*/
+
+	@Test
+	public void neighbours_reveal_upperleft_neighbour5() {
+		//Table table = mock(Table.class);
+
+		//given a [1,1] cell
+		//Table.Cell cell = getLiveCell(1, 1);
+
+		//when(table.get(0, 0)).thenReturn(true);
+
+		//than
+		Boolean[][] mock = new Boolean[3][3];
+		mock[0][1]=true;
+		mock[1][1]=true;
+		mock[2][1]=true;
+
+		assertEquals(1, mSubject.computeNeighboursCount(mock, 0, 1));
+	}
+
+	/*@Test
 	public void neighbours_reveal_upper_neighbour() {
 		Table table = mock(Table.class);
 
@@ -217,6 +286,6 @@ public class GolEngineTest {
 
 		//than
 		assertEquals(0, mSubject.computeNeighboursCount(table, cell));
-	}
+	}*/
 
 }
