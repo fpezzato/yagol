@@ -208,6 +208,25 @@ public class GolEngineTest {
 		}
 	}
 
+	@Test
+	public void cellCreationTest_vertical_pulsar_to_horizontal_pulsar(){
+		///Given an 3x3 matrix
+		Boolean[][] matrix = new Boolean[3][3];
+		matrix[0][1] = true;
+		matrix[1][1] = true;
+		matrix[2][1] = true;
 
+		//When compute one generation
+		Boolean[][] nextGen = mSubject.computeGeneration(matrix);
 
+		assertEquals(nextGen[0][0],false);
+		assertEquals(nextGen[0][1],false);
+		assertEquals(nextGen[0][2],false);
+		assertEquals(nextGen[1][0],true);
+		assertEquals(nextGen[1][1],true);
+		assertEquals(nextGen[1][2],true);
+		assertEquals(nextGen[2][0],false);
+		assertEquals(nextGen[2][1],false);
+		assertEquals(nextGen[2][2],false);
+	}
 }

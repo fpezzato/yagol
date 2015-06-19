@@ -40,54 +40,27 @@ public class GolEngine {
 		}).size();*/
 
 
-		Boolean[][] next = new Boolean[sizeX][sizeY];  // empty board
-		for (int i = 0; i < sizeX; i++) {     // loops through x-axis for computing the next generation
-			for (int k = 0; k < sizeY; k++) { // loops through y-axis
-				int neighboursCount = computeNeighboursCount(matrix, i, k);
-				boolean isAlive = matrix[i][k] != null ? matrix[i][k] : false;
-				/*boolean alive = computeRule1(isAlive, neighboursCount)
-					||
-					computeRule2(isAlive, neighboursCount)
-					|| computeRule3(isAlive, neighboursCount)
-					|| computeRule4(isAlive, neighboursCount);*/
+		Boolean[][] nextGen = new Boolean[sizeX][sizeY];  // empty board
+		for (int i = 0; i < sizeX; i++) {
+			for (int j = 0; j < sizeY; j++) {
+				int neighboursCount = computeNeighboursCount(matrix, i, j);
+				boolean isAlive = matrix[i][j] != null ? matrix[i][j] : false;
 				boolean alive = isAlive;
-				if (neighboursCount > 3  ||  neighboursCount < 2)
+				if (neighboursCount > 3 || neighboursCount < 2) {
 					alive = false;
-				else if (neighboursCount == 3)
+				} else if (neighboursCount == 3) {
 					alive = true;
-				/*else
-					tempCells[row][col] = cells[row][col];*/
-				next[i][k] = alive;
+				}
+				setCell(nextGen, i, j, alive);
 			}
 		}
-
-
-		return next;
-
-	}
-
-/*	@VisibleForTesting
-	public boolean computeRule1(boolean isAlive, int neighboursCount) {
-		return isAlive && !(neighboursCount < 2);
-	}
-
-
-	@VisibleForTesting
-	public boolean computeRule2(boolean isAlive, int neighboursCount) {
-		return isAlive && neighboursCount == 2 || neighboursCount == 3;
+		return nextGen;
 	}
 
 	@VisibleForTesting
-	public boolean computeRule3(boolean isAlive, int neighboursCount) {
-		return  (isAlive && (neighboursCount > 3))?false:true;
+	public void setCell(Boolean[][] matrix, int x, int y, boolean state) {
+		matrix[x][y] = state;
 	}
-
-
-	@VisibleForTesting
-	public boolean computeRule4(boolean isAlive, int neighboursCount) {
-		return isAlive || (!isAlive && neighboursCount == 3);
-	}*/
-
 
 	@VisibleForTesting
 	public int computeNeighboursCount(Boolean[][] matrix, int x, int y) {
@@ -96,7 +69,7 @@ public class GolEngine {
 		if (matrix.length > 0 && matrix[0].length > 0) {
 			for (int i = x - 1; i <= x + 1; i++) {
 				for (int j = y - 1; j <= y + 1; j++) {
-					if (! ( (i==x && j==y) || i < 0 || j < 0 || i > matrix.length - 1 || j > matrix[0].length - 1)) {
+					if (!((i == x && j == y) || i < 0 || j < 0 || i > matrix.length - 1 || j > matrix[0].length - 1)) {
 						result += matrix[i][j] != null && matrix[i][j]
 							? 1 : 0;
 					}
