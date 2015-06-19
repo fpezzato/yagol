@@ -91,6 +91,7 @@ public class GolEngine {
 
 	@VisibleForTesting
 	public int computeNeighboursCount(Boolean[][] matrix, int x, int y) {
+		///TODO - optimization: when more than 3, just break. It uleless to know the exact value.
 		int result = 0;
 		if (matrix.length > 0 && matrix[0].length > 0) {
 			for (int i = x - 1; i <= x + 1; i++) {

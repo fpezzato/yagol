@@ -3,10 +3,13 @@ package org.fpezzato.yagol;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.fpezzato.yagol.biz.GolEngine;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.runners.MockitoJUnitRunner;
+
+import java.util.Arrays;
 
 import static org.junit.Assert.assertEquals;
 
@@ -30,262 +33,181 @@ public class GolEngineTest {
 		mSubject = new GolEngine();
 	}
 
-	/*@Test
-	public void rule1_live_cellshould_die_tooFewNeighbours0() {
-		assertFalse(mSubject.computeRule1(true, 0));
+	private Boolean[][] getFullLiveMatrix(int sizeX, int sizeY) {
+		Boolean[][] result = new Boolean[sizeX][sizeY];
+		for (int i = 0; i < sizeX; i++) {
+			Arrays.fill(result[i], true);
+		}
+		return result;
 	}
 
 	@Test
-	public void rule1_live_cellshould_die_tooFewNeighbours1() {
-		assertFalse(mSubject.computeRule1(true, 1));
+	public void neighbours_count_topleft_fullmatrix() {
+		//Given a full alive 3x3 matrix
+		Boolean[][] matrix = getFullLiveMatrix(3, 3);
+
+		//When compute number of Neighbours of cell 0,0
+		int count = mSubject.computeNeighboursCount(matrix, 0, 0);
+
+		//Then count should be 3
+		Assert.assertEquals(count, 3);
 	}
 
 	@Test
-	public void rule2_live_cellshould_live_two_live_neighbours() {
-		assertTrue(mSubject.computeRule2(true, 2));
+	public void neighbours_count_topmid_fullmatrix() {
+		//Given a full alive 3x3 matrix
+		Boolean[][] matrix = getFullLiveMatrix(3, 3);
+
+		//When compute number of Neighbours of cell 0,1
+		int count = mSubject.computeNeighboursCount(matrix, 0, 1);
+
+		//Then count should be 5
+		Assert.assertEquals(count, 5);
 	}
 
 	@Test
-	public void rule2_live_cellshould_live_three_live_neighbours() {
-		assertTrue(mSubject.computeRule2(true, 3));
+	public void neighbours_count_topright_fullmatrix() {
+		//Given a full alive 3x3 matrix
+		Boolean[][] matrix = getFullLiveMatrix(3, 3);
+
+		//When compute number of Neighbours of cell 0,2
+		int count = mSubject.computeNeighboursCount(matrix, 0, 2);
+
+		//Then count should be 3
+		Assert.assertEquals(count, 3);
 	}
 
 	@Test
-	public void rule3_live_cellshould_die_too_many_neighbours() {
-		assertFalse(mSubject.computeRule3(true, 4));
+	public void neighbours_count_midleft_fullmatrix() {
+		//Given a full alive 3x3 matrix
+		Boolean[][] matrix = getFullLiveMatrix(3, 3);
+
+		//When compute number of Neighbours of cell 1,0
+		int count = mSubject.computeNeighboursCount(matrix, 1, 0);
+
+		//Then count should be 5
+		Assert.assertEquals(count, 5);
 	}
 
 	@Test
-	public void rule3_deal_cellshould_die_too_many_neighbours() {
-		assertFalse(mSubject.computeRule3(true, 4));
+	public void neighbours_count_mid_fullmatrix() {
+		//Given a full alive 3x3 matrix
+		Boolean[][] matrix = getFullLiveMatrix(3, 3);
+
+		//When compute number of Neighbours of cell 1,1
+		int count = mSubject.computeNeighboursCount(matrix, 1, 1);
+
+		//Then count should be 8 - full house!
+		Assert.assertEquals(count, 8);
 	}
 
 	@Test
-	public void rule4_deal_cellshould_live_three_live_neighbours() {
-		assertTrue(mSubject.computeRule4(false, 3));
+	public void neighbours_count_midright_fullmatrix() {
+		//Given a full alive 3x3 matrix
+		Boolean[][] matrix = getFullLiveMatrix(3, 3);
+
+		//When compute number of Neighbours of cell 1,2
+		int count = mSubject.computeNeighboursCount(matrix, 1, 2);
+
+		//Then count should be 5
+		Assert.assertEquals(count, 5);
 	}
 
 	@Test
-	public void rule4_deal_cellshould_die_four_live_neighbours() {
-		assertFalse(mSubject.computeRule4(false, 4));
-	}*/
-/*
-	private Table.Cell<Integer, Integer, String> getLiveCell(int row, int column) {
-		Table.Cell liveCell = mock(Table.Cell.class);
-		when(liveCell.getRowKey()).thenReturn(1);
-		when(liveCell.getColumnKey()).thenReturn(1);
-		when(liveCell.getValue()).thenReturn(true);
-		return liveCell;
-	}*/
+	public void neighbours_count_bottomleft_fullmatrix() {
+		//Given a full alive 3x3 matrix
+		Boolean[][] matrix = getFullLiveMatrix(3, 3);
 
-	@Test
-	public void neighbours_reveal_upperleft_neighbour() {
-		//Table table = mock(Table.class);
+		//When compute number of Neighbours of cell 2,0
+		int count = mSubject.computeNeighboursCount(matrix, 2, 0);
 
-		//given a [1,1] cell
-		//Table.Cell cell = getLiveCell(1, 1);
-
-		//when(table.get(0, 0)).thenReturn(true);
-
-		//than
-		Boolean[][] mock = new Boolean[3][3];
-		 mock[0][1]=true;
-		 mock[1][1]=true;
-		 mock[2][1]=true;
-
-		assertEquals(2, mSubject.computeNeighboursCount(mock, 0,0));
+		//Then count should be 3
+		Assert.assertEquals(count, 3);
 	}
 
 	@Test
-	public void neighbours_reveal_upperleft_neighbour2() {
-		//Table table = mock(Table.class);
+	public void neighbours_count_midbottom_fullmatrix() {
+		//Given a full alive 3x3 matrix
+		Boolean[][] matrix = getFullLiveMatrix(3, 3);
 
-		//given a [1,1] cell
-		//Table.Cell cell = getLiveCell(1, 1);
+		//When compute number of Neighbours of cell 2,1
+		int count = mSubject.computeNeighboursCount(matrix, 2, 1);
 
-		//when(table.get(0, 0)).thenReturn(true);
-
-		//than
-		Boolean[][] mock = new Boolean[3][3];
-		mock[0][1]=true;
-		mock[1][1]=true;
-		mock[2][1]=true;
-
-		assertEquals(1, mSubject.computeNeighboursCount(mock, 2,1));
+		//Then count should be 5
+		Assert.assertEquals(count, 5);
 	}
 
 	@Test
-	public void neighbours_reveal_upperleft_neighbour3() {
-		//Table table = mock(Table.class);
+	public void neighbours_count_bottomright_fullmatrix() {
+		//Given a full alive 3x3 matrix
+		Boolean[][] matrix = getFullLiveMatrix(3, 3);
 
-		//given a [1,1] cell
-		//Table.Cell cell = getLiveCell(1, 1);
+		//When compute number of Neighbours of cell 2,2
+		int count = mSubject.computeNeighboursCount(matrix, 2, 2);
 
-		//when(table.get(0, 0)).thenReturn(true);
-
-		//than
-		Boolean[][] mock = new Boolean[3][3];
-		mock[0][1]=true;
-		mock[1][1]=true;
-		mock[2][1]=true;
-
-		assertEquals(1, mSubject.computeNeighboursCount(mock, 0,1));
-	}
-
-
-/*	@Test
-	public void neighbours_reveal_upperleft_neighbour4() {
-		//Table table = mock(Table.class);
-
-		//given a [1,1] cell
-		//Table.Cell cell = getLiveCell(1, 1);
-
-		//when(table.get(0, 0)).thenReturn(true);
-
-		//than
-
-
-		assertFalse( mSubject.computeRule3(true,4));
-	}*/
-
-	@Test
-	public void neighbours_reveal_upperleft_neighbour5() {
-		//Table table = mock(Table.class);
-
-		//given a [1,1] cell
-		//Table.Cell cell = getLiveCell(1, 1);
-
-		//when(table.get(0, 0)).thenReturn(true);
-
-		//than
-		Boolean[][] mock = new Boolean[3][3];
-		mock[0][1]=true;
-		mock[1][1]=true;
-		mock[2][1]=true;
-
-		assertEquals(1, mSubject.computeNeighboursCount(mock, 0, 1));
-	}
-
-	/*@Test
-	public void neighbours_reveal_upper_neighbour() {
-		Table table = mock(Table.class);
-
-		//given a [1,1] cell
-		Table.Cell cell = getLiveCell(1, 1);
-
-		when(table.get(0, 1)).thenReturn(true);
-
-		//than
-		assertEquals(1, mSubject.computeNeighboursCount(table, cell));
+		//Then count should be 3
+		Assert.assertEquals(count, 3);
 	}
 
 	@Test
-	public void neighbours_reveal_upperright_neighbour() {
-		Table table = mock(Table.class);
+	public void neighbours_count_topleft_centra_row_full() {
 
-		//given a [1,1] cell
-		Table.Cell cell = getLiveCell(1, 1);
+		///Given an 3x3 matrix with central vertical row alive
+		Boolean[][] matrix = new Boolean[3][3];
+		matrix[0][1] = true;
+		matrix[1][1] = true;
+		matrix[2][1] = true;
 
-		when(table.get(0, 2)).thenReturn(true);
+		//When compute neighbour count
+		int count = mSubject.computeNeighboursCount(matrix, 0, 0);
 
-		//than
-		assertEquals(1, mSubject.computeNeighboursCount(table, cell));
-	}
-
-	@Test
-	public void neighbours_reveal_left_neighbour() {
-		Table table = mock(Table.class);
-
-		//given a [1,1] cell
-		Table.Cell cell = getLiveCell(1, 1);
-
-		when(table.get(1, 0)).thenReturn(true);
-
-		//than
-		assertEquals(1, mSubject.computeNeighboursCount(table, cell));
-	}
-
-	@Test
-	public void neighbours_reveal_right_neighbour() {
-		Table table = mock(Table.class);
-
-		//given a [1,1] cell
-		Table.Cell cell = getLiveCell(1, 1);
-
-		when(table.get(1, 2)).thenReturn(true);
-
-		//than
-		assertEquals(1, mSubject.computeNeighboursCount(table, cell));
+		//Then count should be 2
+		assertEquals(2, count);
 	}
 
 	@Test
 	public void neighbours_reveal_bottomleft_neighbour() {
-		Table table = mock(Table.class);
+		///Given an 3x3 matrix with central vertical row alive
+		Boolean[][] matrix = new Boolean[3][3];
+		matrix[0][1] = true;
+		matrix[1][1] = true;
+		matrix[2][1] = true;
 
-		//given a [1,1] cell
-		Table.Cell cell = getLiveCell(1, 1);
+		//When compute neighbour count
+		int count = mSubject.computeNeighboursCount(matrix, 2, 1);
 
-		when(table.get(2, 0)).thenReturn(true);
-
-		//than
-		assertEquals(1, mSubject.computeNeighboursCount(table, cell));
+		//Then count should be 1
+		assertEquals(1, count);
 	}
 
 	@Test
-	public void neighbours_reveal_bottom_neighbour() {
-		Table table = mock(Table.class);
+	public void neighbours_reveal_uppermid_neighbour3() {
+		///Given an 3x3 matrix with central vertical row alive
+		Boolean[][] matrix = new Boolean[3][3];
+		matrix[0][1] = true;
+		matrix[1][1] = true;
+		matrix[2][1] = true;
 
-		//given a [1,1] cell
-		Table.Cell cell = getLiveCell(1, 1);
+		//When compute neighbour count
+		int count = mSubject.computeNeighboursCount(matrix, 0, 1);
 
-		when(table.get(2, 1)).thenReturn(true);
-
-		//than
-		assertEquals(1, mSubject.computeNeighboursCount(table, cell));
+		//Then count should be 1
+		assertEquals(1, count);
 	}
 
-	@Test
-	public void neighbours_reveal_bottomright_neighbour() {
-		Table table = mock(Table.class);
-
-		//given a [1,1] cell
-		Table.Cell cell = getLiveCell(1, 1);
-
-		when(table.get(2, 2)).thenReturn(true);
-
-		//than
-		assertEquals(1, mSubject.computeNeighboursCount(table, cell));
-	}
-
-	@Test
-	public void neighbours_count_full_neighbour() {
-		Table table = mock(Table.class);
-
-		//given a [1,1] cell
-		Table.Cell cell = getLiveCell(1, 1);
-
-		when(table.get(0, 0)).thenReturn(true);
-		when(table.get(0, 1)).thenReturn(true);
-		when(table.get(0, 2)).thenReturn(true);
-		when(table.get(1, 0)).thenReturn(true);
-		when(table.get(1, 2)).thenReturn(true);
-		when(table.get(2, 0)).thenReturn(true);
-		when(table.get(2, 1)).thenReturn(true);
-		when(table.get(2, 2)).thenReturn(true);
-
-		//than
-		assertEquals(8, mSubject.computeNeighboursCount(table, cell));
-	}
 
 	@Test
 	public void neighbours_count_no_neighbour() {
-		Table table = mock(Table.class);
+		///Given an 3x3 matrix  empty
+		Boolean[][] matrix = new Boolean[3][3];
+		//When compute neighbour count for any cell
+		for (int i = 0; i < 3; i++) {
+			for (int j = 0; j < 3; j++) {
+				assertEquals(0, mSubject.computeNeighboursCount(matrix,i,j));
+			}
+		}
+	}
 
-		//given a [1,1] cell
-		Table.Cell cell = getLiveCell(1, 1);
 
-		//than
-		assertEquals(0, mSubject.computeNeighboursCount(table, cell));
-	}*/
 
 }
