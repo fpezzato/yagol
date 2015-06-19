@@ -23,23 +23,6 @@ public class GolEngine {
 		int sizeX = matrix.length;
 		int sizeY = matrix[0].length;
 
-
-	/*	FluentIterable.from(currentState.cellSet()).transform(new Function<Cell<Integer, Integer, Boolean>, Void>() {
-			@Override
-			public Void apply(Cell<Integer, Integer, Boolean> input) {
-				int neighboursCount = computeNeighboursCount(currentState.toArray(Boolean.class), input);
-				boolean isAlive = input.getValue() != null ? input.getValue() : false;
-				boolean alive = computeRule1(isAlive, neighboursCount)
-					&&
-				computeRule2(isAlive, neighboursCount)
-					&& computeRule3(isAlive, neighboursCount)
-					&& computeRule4(isAlive, neighboursCount);
-				mSwapTable.put(input.getRowKey(), input.getColumnKey(), alive);
-				return null;
-			}
-		}).size();*/
-
-
 		Boolean[][] nextGen = new Boolean[sizeX][sizeY];  // empty board
 		for (int i = 0; i < sizeX; i++) {
 			for (int j = 0; j < sizeY; j++) {
@@ -51,15 +34,10 @@ public class GolEngine {
 				} else if (neighboursCount == 3) {
 					alive = true;
 				}
-				setCell(nextGen, i, j, alive);
+				nextGen[i][j] = alive;
 			}
 		}
 		return nextGen;
-	}
-
-	@VisibleForTesting
-	public void setCell(Boolean[][] matrix, int x, int y, boolean state) {
-		matrix[x][y] = state;
 	}
 
 	@VisibleForTesting

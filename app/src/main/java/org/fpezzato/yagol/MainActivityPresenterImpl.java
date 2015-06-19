@@ -7,6 +7,7 @@ import org.fpezzato.yagol.biz.GolEngine;
 import org.fpezzato.yagol.mvp.BaseMvpPresenter;
 import org.fpezzato.yagol.mvp.MvpState;
 
+import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -52,7 +53,7 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 			//Range<Integer> columns = Range.closed(0, 100);
 			//mMatrix = ArrayTable.create(ContiguousSet.create(rows, DiscreteDomain.integers()), ContiguousSet.create(columns, DiscreteDomain.integers()));
 
-			mMatrix = new Boolean[100][100];
+			mMatrix = new Boolean[200][200];
 			/*Arrays.fill(mMatrix[0],false);
 
 			Arrays.fill(mMatrix[1],false);
@@ -70,8 +71,21 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 			mMatrix[1][2] =  true;
 			mMatrix[2][1] =  true;
 
+			Random r= new Random();
+			for(int i = 0; i < 100;i++){
+
+				int i1 = r.nextInt(180);
+				int i2 = r.nextInt(180);
+				int i3 = i1+r.nextInt(2);
+				int i4 = i2+r.nextInt(2);
+				int i5 = i1+r.nextInt(2);
+				int i6 = i2+r.nextInt(2);
 
 
+				mMatrix[i1][i2] = true;
+				mMatrix[i3][i4] = true;
+				mMatrix[i5][i6] = true;
+			}
 		}
 	}
 
