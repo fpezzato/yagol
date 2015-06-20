@@ -44,8 +44,12 @@ public class MatrixView extends View {
 		mGuideliinesPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mGuideliinesPaint.setColor(getResources().getColor(R.color.primary_dark));
 		mGuideliinesPaint.setStrokeWidth(2);
+	}
 
-
+	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		setAutoZoomLevel();
 	}
 
 	@Override
@@ -71,13 +75,6 @@ public class MatrixView extends View {
 			}
 		}
 	}
-
-	@Override
-	protected void onAttachedToWindow() {
-		super.onAttachedToWindow();
-		setAutoZoomLevel();
-	}
-
 	private void drawGuidelines(Canvas canvas) {
 		canvas.drawLine(0, 0, canvas.getWidth(), 0, mGuideliinesPaint);
 		canvas.drawLine(0, 0, 0, canvas.getHeight(), mGuideliinesPaint);

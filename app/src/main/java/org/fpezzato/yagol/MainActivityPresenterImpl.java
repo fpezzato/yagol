@@ -30,8 +30,8 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 
 	private Timer mTimer;
 
-	private final static int MATRIX_HEIGHT = 100;
-	private final static int MATRIX_WIDTH = 100;
+	private final static int MATRIX_HEIGHT = 200;
+	private final static int MATRIX_WIDTH = 200;
 
 	final Handler handler = new Handler();
 	private TimerTask mTimerTask;
@@ -42,7 +42,12 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 		super.initialize(view, state);
 		mGolEngine = new GolEngine();
 		if (state.containsKey(KEY_MATRIX)) {
-			mMatrix = (Boolean[][]) state.getSerializable(KEY_MATRIX);
+			try {
+				mMatrix = (Boolean[][]) state.getSerializable(KEY_MATRIX);
+			} catch (ClassCastException ex) {
+				//TODO - investigate around the potential exception.
+				mMatrix = ArrayUtils.getEmptyMatrix(MATRIX_HEIGHT, MATRIX_WIDTH);
+			}
 		} else {
 			mMatrix = ArrayUtils.getEmptyMatrix(MATRIX_HEIGHT, MATRIX_WIDTH);
 			injectRPentomino();
