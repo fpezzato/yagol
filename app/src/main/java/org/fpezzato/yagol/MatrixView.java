@@ -6,19 +6,23 @@ import android.graphics.Paint;
 import android.support.annotation.IntRange;
 import android.support.annotation.VisibleForTesting;
 import android.util.AttributeSet;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
 
 import com.google.common.base.Preconditions;
+
+import static android.content.Context.WINDOW_SERVICE;
 
 /**
  * Created by francesco on 18/06/2015.
  */
 public class MatrixView extends View {
 
-	Boolean[][] mData;
-	Paint mPaint;
-	Paint mGuideliinesPaint;
-	int mZoomLevel = 7;
+	private Boolean[][] mData;
+	private Paint mPaint;
+	private Paint mGuideliinesPaint;
+	private int mZoomLevel = 7;
 
 	public MatrixView(Context context) {
 		super(context);
@@ -40,6 +44,7 @@ public class MatrixView extends View {
 		mGuideliinesPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
 		mGuideliinesPaint.setColor(getResources().getColor(R.color.primary_dark));
 		mGuideliinesPaint.setStrokeWidth(2);
+
 
 	}
 
@@ -67,11 +72,17 @@ public class MatrixView extends View {
 		}
 	}
 
+	@Override
+	protected void onAttachedToWindow() {
+		super.onAttachedToWindow();
+		setAutoZoomLevel();
+	}
+
 	private void drawGuidelines(Canvas canvas) {
 		canvas.drawLine(0, 0, canvas.getWidth(), 0, mGuideliinesPaint);
-		canvas.drawLine(0, 0,0, canvas.getHeight(), mGuideliinesPaint);
+		canvas.drawLine(0, 0, 0, canvas.getHeight(), mGuideliinesPaint);
 		canvas.drawLine(0, canvas.getWidth(), canvas.getHeight(), canvas.getWidth(), mGuideliinesPaint);
-		canvas.drawLine(canvas.getHeight(),0,canvas.getHeight(), canvas.getWidth(), mGuideliinesPaint);
+		canvas.drawLine(canvas.getHeight(), 0, canvas.getHeight(), canvas.getWidth(), mGuideliinesPaint);
 	}
 
 	@VisibleForTesting
@@ -89,7 +100,32 @@ public class MatrixView extends View {
 		invalidate();
 	}
 
-	public void setZoomLevel(@IntRange(from = 1, to = 5) int zoomLevel) {
+	public void setZoomLevel(@IntRange(from = 1, to = 10) int zoomLevel) {
 		mZoomLevel = zoomLevel;
+	}
+
+	public void setAutoZoomLevel() {
+		mZoomLevel = 1; //default
+		if (mData != null && mData.length > 0) {
+
+			WindowManager wm = (WindowManager) getContext().getSystemService(WINDOW_SERVICE);
+			final DisplayMetrics displayMetrics = new DisplayMetrics();
+			wm.getDefaultDisplay().getMetrics(displayMetrics);
+			int screenHeight = displayMetrics.heightPixels;
+			int screenWidth = displayMetrics.widthPixels;
+
+			int dataHeight = mData.length;
+			int dataWidth = mData[0].length;
+
+			//Just try to zomm only if the screen is not too small.
+			int totalPaddingHeight = getPaddingTop() + getPaddingBottom();
+			int totalPaddingWidth = getPaddingLeft() + getPaddingRight();
+			if (!(screenHeight < dataHeight + totalPaddingHeight || screenWidth < dataWidth + totalPaddingWidth)) {
+				while (screenHeight > (dataHeight * mZoomLevel) + totalPaddingHeight
+					&& screenWidth > (dataWidth * mZoomLevel) + totalPaddingWidth) {
+					mZoomLevel++;
+				}
+			}
+		}
 	}
 }

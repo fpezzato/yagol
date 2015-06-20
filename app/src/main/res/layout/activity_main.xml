@@ -8,9 +8,11 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior">
-        <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
-                      android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
             <TextView
                 android:text="@string/main_activity_info"
                 android:layout_width="match_parent"
@@ -23,24 +25,11 @@
 
             <org.fpezzato.yagol.MatrixView android:id="@+id/activity_main_matrix"
                                            android:layout_width="0dp" android:layout_height="0dp"
-                                           android:layout_gravity="center_horizontal"/>
-            <include layout="@layout/view_matrix_controller" />
-            <View android:layout_width="match_parent" android:layout_height="100dp"
-                  android:background="@color/link_text_material_dark">
+                                           android:layout_gravity="center_horizontal"
+                android:padding="30dp"
+                />
+            <include layout="@layout/view_matrix_controller"/>
 
-            </View>
-            <View android:layout_width="match_parent" android:layout_height="200dp"
-                  android:background="@color/highlighted_text_material_light">
-
-            </View>
-            <View android:layout_width="match_parent" android:layout_height="300dp"
-                  android:background="@color/link_text_material_dark">
-
-            </View>
-            <View android:layout_width="match_parent" android:layout_height="200dp"
-                  android:background="@color/highlighted_text_material_light">
-
-            </View>
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
