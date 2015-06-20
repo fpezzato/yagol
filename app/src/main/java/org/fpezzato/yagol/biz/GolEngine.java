@@ -28,7 +28,7 @@ public class GolEngine {
 		Boolean[][] nextGen = new Boolean[sizeX][sizeY];  // empty board
 		for (int i = 0; i < sizeX; i++) {
 			for (int j = 0; j < sizeY; j++) {
-				int neighboursCount = computeNeighboursCount(matrix, i, j);
+				int neighboursCount = computeBestEffortNeighboursCount(matrix, i, j);
 				boolean isAlive = matrix[i][j] != null ? matrix[i][j] : false;
 				boolean alive = isAlive;
 				if (neighboursCount > 3 || neighboursCount < 2) {
@@ -42,17 +42,29 @@ public class GolEngine {
 		return nextGen;
 	}
 
+	/**
+	 * We a re not interested in the full count, we just need to know the real count up tp 3. More than that is a redundant info.
+	 *
+	 * @return the beest effort count of the neighbours.
+	 */
 	@VisibleForTesting
-	public int computeNeighboursCount(Boolean[][] matrix, int x, int y) {
+	public int computeBestEffortNeighboursCount(Boolean[][] matrix, int x, int y) {
 		int result = 0;
+		outerloop:
 		if (matrix.length > 0 && matrix[0].length > 0) {
 			for (int i = x - 1; i <= x + 1; i++) {
 				for (int j = y - 1; j <= y + 1; j++) {
+
 					if (!((i == x && j == y) || i < 0 || j < 0 || i > matrix.length - 1 || j > matrix[0].length - 1)) {
 						result += matrix[i][j] != null && matrix[i][j]
 							? 1 : 0;
+						if (result > 3) {
+							break outerloop;
+						}
 					}
+
 				}
+
 			}
 		}
 		return result;
