@@ -16,9 +16,13 @@ import java.util.TimerTask;
  */
 public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView, MvpState> implements MainActivityPresenter<MainActivityView, MvpState> {
 
-	public static final String KEY_MATRIX = MainActivityPresenterImpl.class.getCanonicalName() + ";KEY_MATRIX";
+	private static final String KEY_MATRIX = MainActivityPresenterImpl.class.getCanonicalName() + ";KEY_MATRIX";
+	private static final String KEY_GAME_STATE = MainActivityPresenterImpl.class.getCanonicalName() + ";KEY_GAME_STATE";
+	private static final int GAME_STATE_RUNNING = 1;
+	private static final int GAME_STATE_PAUSED = 0;
 
 	private Boolean[][] mMatrix;
+	private int mCurrentGameState = GAME_STATE_RUNNING;
 
 	private GolEngine mGolEngine;
 
@@ -38,62 +42,13 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 		super.initialize(view, state);
 		mGolEngine = new GolEngine();
 		if (state.containsKey(KEY_MATRIX)) {
-			//TODO: not the pourpose of this app. Working with serializable to save dev-time.
-			//mMatrix = (ArrayTable<Integer, Integer, Boolean>) state.getSerializable(KEY_MATRIX);
+			mMatrix = (Boolean[][]) state.getSerializable(KEY_MATRIX);
 		} else {
-			//FIXME - just demo code
-			//Range<Integer> rows = Range.closed(0, 100);
-			//Range<Integer> columns = Range.closed(0, 100);
-			//mMatrix = ArrayTable.create(ContiguousSet.create(rows, DiscreteDomain.integers()), ContiguousSet.create(columns, DiscreteDomain.integers()));
-
 			mMatrix = ArrayUtils.getEmptyMatrix(MATRIX_HEIGHT, MATRIX_WIDTH);
-			/*Arrays.fill(mMatrix[0],false);
-
-			Arrays.fill(mMatrix[1],false);
-			Arrays.fill(mMatrix[2],false); */
-			//pulsar
-			/*mMatrix[0][1] =  true;
-			mMatrix[1][1] =  true;
-			mMatrix[2][1] =  true;
-*/
-		/*	//Glider
-			mMatrix[0][0] = true;
-			mMatrix[0][2] = true;
-			mMatrix[1][1] = true;
-			mMatrix[1][2] = true;
-			mMatrix[2][1] = true;
-*/
-
-			//The R-pentomino
-			mMatrix[30][30] = false;
-			mMatrix[30][31] = true;
-			mMatrix[30][32] = true;
-
-			mMatrix[31][30] = true;
-			mMatrix[31][31] = true;
-			mMatrix[31][32] = false;
-
-			mMatrix[32][30] = false;
-			mMatrix[32][31] = true;
-			mMatrix[32][32] = false;
-
-			/*
-
-			/*Random r= new Random();
-			for(int i = 0; i < 100;i++){
-
-				int i1 = r.nextInt(180);
-				int i2 = r.nextInt(180);
-				int i3 = i1+r.nextInt(2);
-				int i4 = i2+r.nextInt(2);
-				int i5 = i1+r.nextInt(2);
-				int i6 = i2+r.nextInt(2);
-
-
-				mMatrix[i1][i2] = true;
-				mMatrix[i3][i4] = true;
-				mMatrix[i5][i6] = true;
-			}*/
+			injectRPentomino();
+		}
+		if (state.containsKey(KEY_GAME_STATE)) {
+			mCurrentGameState = state.getInt(KEY_GAME_STATE);
 		}
 	}
 
@@ -102,18 +57,21 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 		if (mMatrix != null) {
 			mvpState.putSerializable(KEY_MATRIX, mMatrix);
 		}
+		mvpState.putInt(KEY_GAME_STATE, mCurrentGameState);
 	}
 
 	@Override
 	public void start() {
 		getMvpView().drawMatrix(mMatrix);
 
-		//timer.schedule(timerTask, INTERVAL, INTERVAL);
+		if (mCurrentGameState == GAME_STATE_RUNNING) {
+			playGame();
+		}
 	}
 
 	@Override
 	public void stop() {
-
+		pauseGame();
 	}
 
 	@Override
@@ -136,10 +94,14 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 		};
 
 		mTimer.schedule(mTimerTask, INTERVAL, INTERVAL);
+		mCurrentGameState = GAME_STATE_RUNNING;
+
 	}
+
 
 	@Override
 	public void pauseGame() {
+		mCurrentGameState = GAME_STATE_PAUSED;
 		if (mTimer != null) {
 			mTimer.cancel();
 			mTimer.purge();
@@ -151,5 +113,35 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 	public void resetGame() {
 		pauseGame();
 		mMatrix = ArrayUtils.getEmptyMatrix(MATRIX_HEIGHT, MATRIX_WIDTH);
+	}
+
+	@Override
+	public void injectRPentomino() {
+		resetGame();
+		int averageMid = Math.min(MATRIX_HEIGHT, MATRIX_WIDTH) / 2;
+
+		mMatrix[averageMid + 0][averageMid + 0] = false;
+		mMatrix[averageMid + 0][averageMid + 1] = true;
+		mMatrix[averageMid + 0][averageMid + 2] = true;
+
+		mMatrix[averageMid + 1][averageMid + 0] = true;
+		mMatrix[averageMid + 1][averageMid + 1] = true;
+		mMatrix[averageMid + 1][averageMid + 2] = false;
+
+		mMatrix[averageMid + 2][averageMid + 0] = false;
+		mMatrix[averageMid + 2][averageMid + 1] = true;
+		mMatrix[averageMid + 2][averageMid + 2] = false;
+		getMvpView().drawMatrix(mMatrix);
+	}
+
+	public void injectGlider() {
+		/*	//Glider
+			mMatrix[0][0] = true;
+			mMatrix[0][2] = true;
+			mMatrix[1][1] = true;
+			mMatrix[1][2] = true;
+			mMatrix[2][1] = true;
+*/
+
 	}
 }

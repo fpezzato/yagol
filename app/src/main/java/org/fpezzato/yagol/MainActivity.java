@@ -117,13 +117,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-		// Handle action bar item clicks here. The action bar will
-		// automatically handle clicks on the Home/Up button, so long
-		// as you specify a parent activity in AndroidManifest.xml.
 		int id = item.getItemId();
 
-		//noinspection SimplifiableIfStatement
-		if (id == R.id.action_settings) {
+		if (id == R.id.action_inject_r_pentomino) {
+			getPresenter().injectRPentomino();
 			return true;
 		}
 
@@ -167,10 +164,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 			R.string.main_activity_game_description_5_li2,
 			R.string.main_activity_game_description_5_li3,
 			R.string.main_activity_game_description_5_li4);
-
-
 		return stringBuilder;
-
 	}
 
 	private void addBulletSpan(SpannableStringBuilder stringBuilder, @StringRes int...values){
@@ -180,9 +174,7 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 			String s = getString(value);
 			stringBuilder.append(s);
 			stringBuilder.setSpan(new BulletSpan(), stringBuilder.length() - s.length(), stringBuilder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
-
 		}
-
 	}
 
 }

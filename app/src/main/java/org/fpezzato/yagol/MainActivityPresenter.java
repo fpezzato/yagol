@@ -14,4 +14,6 @@ public interface MainActivityPresenter<VIEW extends MvpView, STATE extends MvpSt
 	void pauseGame();
 
 	void resetGame();
+
+	void injectRPentomino();
 }
