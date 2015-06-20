@@ -13,6 +13,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
+
             <TextView
                 android:text="@string/main_activity_info"
                 android:layout_width="match_parent"
@@ -20,15 +21,24 @@
                 android:layout_marginBottom="10dp"
                 android:layout_marginTop="10dp"
                 style="@style/Base.TextAppearance.AppCompat.Title"
-                android:gravity="center_horizontal"
-                />
+                android:gravity="center_horizontal" />
 
             <org.fpezzato.yagol.MatrixView android:id="@+id/activity_main_matrix"
                                            android:layout_width="0dp" android:layout_height="0dp"
                                            android:layout_gravity="center_horizontal"
-                android:padding="30dp"
-                />
+                                           android:padding="30dp"/>
+
             <include layout="@layout/view_matrix_controller"/>
+
+            <TextView
+
+                style="@style/Base.TextAppearance.AppCompat.Body1"
+                android:padding="@dimen/small"
+                android:id="@+id/activity_main_game_description"
+                      android:layout_width="match_parent"
+                      android:layout_height="wrap_content"/>
+
+            <View android:layout_width="match_parent" android:layout_height="1dp"/>
 
 
         </LinearLayout>

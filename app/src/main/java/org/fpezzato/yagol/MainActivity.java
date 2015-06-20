@@ -1,11 +1,19 @@
 package org.fpezzato.yagol;
 
 import android.os.Bundle;
+import android.support.annotation.StringRes;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.SpannableStringBuilder;
+import android.text.Spanned;
+import android.text.method.LinkMovementMethod;
+import android.text.style.BulletSpan;
+import android.text.style.StyleSpan;
+import android.text.style.URLSpan;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.common.base.Preconditions;
 
@@ -13,6 +21,8 @@ import org.fpezzato.yagol.mvp.MvpState;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+
+import static android.graphics.Typeface.ITALIC;
 
 public class MainActivity extends AppCompatActivity implements MainActivityView {
 
@@ -32,6 +42,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 
 	@InjectView(R.id.controller_reset)
 	View mReset;
+
+	@InjectView(R.id.activity_main_game_description)
+	TextView mGameDescription;
 
 	public MainActivity withPresenter(MainActivityPresenter presenter) {
 		this.mPresenter = presenter;
@@ -60,13 +73,15 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 				getPresenter().pauseGame();
 			}
 		});
-
 		mReset.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
 				getPresenter().resetGame();
 			}
 		});
+
+		mGameDescription.setMovementMethod(LinkMovementMethod.getInstance());
+		mGameDescription.setText(formatGameDescription());
 
 		getPresenter().initialize(this, new MvpState(savedInstanceState));
 
@@ -125,5 +140,49 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 		mMatrixView.setData(matrix);
 	}
 
+	private SpannableStringBuilder formatGameDescription() {
+		final StyleSpan italic = new StyleSpan(ITALIC);
+
+		SpannableStringBuilder stringBuilder = new SpannableStringBuilder();
+		String s0 = getString(R.string.main_activity_game_description_0);
+		stringBuilder.append(s0);
+		String s1 = getString(R.string.main_activity_game_description_1);
+		stringBuilder.append(s1);
+		stringBuilder.setSpan(italic, s0.length(), stringBuilder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
+		String s2 = getString(R.string.main_activity_game_description_2);
+		stringBuilder.append(s2);
+
+		String s3 = getString(R.string.main_activity_game_description_3);
+		stringBuilder.append(s3);
+		stringBuilder.setSpan(new URLSpan(getString(R.string.main_activity_game_description_3_url))
+			, stringBuilder.length() - s3.length(), stringBuilder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
+		stringBuilder.append("\n\n\n");
+		String s4 = getString(R.string.main_activity_game_description_4);
+		stringBuilder.append(s4);
+
+		addBulletSpan(stringBuilder,
+			R.string.main_activity_game_description_5_li1,
+			R.string.main_activity_game_description_5_li2,
+			R.string.main_activity_game_description_5_li3,
+			R.string.main_activity_game_description_5_li4);
+
+
+		return stringBuilder;
+
+	}
+
+	private void addBulletSpan(SpannableStringBuilder stringBuilder, @StringRes int...values){
+
+		for(int value : values) {
+			stringBuilder.append("\n");
+			String s = getString(value);
+			stringBuilder.append(s);
+			stringBuilder.setSpan(new BulletSpan(), stringBuilder.length() - s.length(), stringBuilder.length(), Spanned.SPAN_INCLUSIVE_EXCLUSIVE);
+
+		}
+
+	}
 
 }

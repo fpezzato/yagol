@@ -1,6 +1,20 @@
 <resources>
     <string name="app_name">Yagol</string>
 
-    <string name="main_activity_info">Just a small Game of Life test:)</string>
+    <string name="main_activity_info">Yet Another \'Conway\'s Game of Life\'</string>
+    <string name="main_activity_game_description_0">The main purpouse of this silly app is for me to learn and test some android-development stuff. \n\n On the other end this is a
+    </string>
+    <string name="main_activity_game_description_1">" simple "</string>
+    <string name="main_activity_game_description_2">implementation of a game called \'Conway\'s Game of Life\'.
+    </string>
+    <string name="main_activity_game_description_3">[Wikipedia]</string>
+    <string name="main_activity_game_description_3_url">https://goo.gl/Uys8G6</string>
+    <string name="main_activity_game_description_4">At each step in time, the following transitions occur:</string>
+    <string name="main_activity_game_description_5_li1">Any live cell with fewer than two live neighbours dies, as if caused by under-population.</string>
+    <string name="main_activity_game_description_5_li2">Any live cell with two or three live neighbours lives on to the next generation.</string>
+    <string name="main_activity_game_description_5_li3">Any live cell with more than three live neighbours dies, as if by overcrowding.</string>
+    <string name="main_activity_game_description_5_li4">Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.</string>
+
+
     <string name="action_settings">Settings</string>
 </resources>
