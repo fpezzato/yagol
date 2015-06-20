@@ -2,6 +2,7 @@ package org.fpezzato.yagol;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -9,10 +10,19 @@ import com.google.common.base.Preconditions;
 
 import org.fpezzato.yagol.mvp.MvpState;
 
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
 public class MainActivity extends AppCompatActivity implements MainActivityView {
 
 	private MainActivityPresenter mPresenter;
+
+	@InjectView(R.id.activity_main_matrix)
 	MatrixView mMatrixView;
+
+	@InjectView(R.id.activity_main_toolbar)
+	Toolbar mToolbar;
+
 
 	public MainActivity withPresenter(MainActivityPresenter presenter) {
 		this.mPresenter = presenter;
@@ -23,12 +33,16 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
+
 		if (mPresenter == null) {
 			mPresenter = new MainActivityPresenterImpl();
 		}
-		mMatrixView = (MatrixView) findViewById(R.id.activity_main_matrix);
 
+		ButterKnife.inject(this);
 		getPresenter().initialize(this, new MvpState(savedInstanceState));
+
+		setSupportActionBar(mToolbar);
+
 	}
 
 	@Override
@@ -78,7 +92,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 
 
 	@Override
-	public void drawMatrix( Boolean[][] matrix) {
+	public void drawMatrix(Boolean[][] matrix) {
 		mMatrixView.setData(matrix);
 	}
+
+
 }

@@ -1,23 +1,68 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:orientation="vertical"
-              tools:context=".MainActivity">
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-    <TextView
-        android:text="@string/main_activity_info"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        <LinearLayout android:layout_width="match_parent"
+                      android:layout_height="wrap_content"
+                      android:orientation="vertical">
+            <TextView
+                android:text="@string/main_activity_info"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                style="@style/Base.TextAppearance.AppCompat.Title"
+                android:gravity="center_horizontal"
+                />
+
+            <org.fpezzato.yagol.MatrixView android:id="@+id/activity_main_matrix"
+                                           android:layout_width="0dp" android:layout_height="0dp"
+                                           android:layout_gravity="center_horizontal"/>
+            <View android:layout_width="match_parent" android:layout_height="100dp"
+                  android:background="@color/link_text_material_dark">
+
+            </View>
+            <View android:layout_width="match_parent" android:layout_height="200dp"
+                  android:background="@color/highlighted_text_material_light">
+
+            </View>
+            <View android:layout_width="match_parent" android:layout_height="300dp"
+                  android:background="@color/link_text_material_dark">
+
+            </View>
+            <View android:layout_width="match_parent" android:layout_height="200dp"
+                  android:background="@color/highlighted_text_material_light">
+
+            </View>
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.AppBarLayout
         android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="10dp"
-        style="@style/Base.TextAppearance.AppCompat.Title"
-        android:gravity="center_horizontal"
-        />
+        android:layout_width="match_parent">
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-    <org.fpezzato.yagol.MatrixView android:id="@+id/activity_main_matrix" android:layout_width="0dp" android:layout_height="0dp"
-        android:layout_gravity="center_horizontal"
-        />
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/activity_main_toolbar"
+                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                app:layout_scrollFlags="scroll|enterAlways"/>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
 
 
-</LinearLayout>
+    </android.support.design.widget.AppBarLayout>
+
+
+
+</android.support.design.widget.CoordinatorLayout>

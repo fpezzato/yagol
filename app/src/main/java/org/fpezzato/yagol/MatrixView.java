@@ -38,7 +38,7 @@ public class MatrixView extends View {
 		mPaint.setColor(getResources().getColor(android.R.color.black));
 
 		mGuideliinesPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-		mGuideliinesPaint.setColor(getResources().getColor(android.R.color.holo_green_light));
+		mGuideliinesPaint.setColor(getResources().getColor(R.color.primary_dark));
 		mGuideliinesPaint.setStrokeWidth(2);
 
 	}
