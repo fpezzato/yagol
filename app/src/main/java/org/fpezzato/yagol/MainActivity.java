@@ -39,9 +39,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 	@InjectView(R.id.controller_pause)
 	View mPause;
 
-	@InjectView(R.id.controller_reset)
-	View mReset;
-
 	@InjectView(R.id.activity_main_game_description)
 	TextView mGameDescription;
 
@@ -70,12 +67,6 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 			@Override
 			public void onClick(View v) {
 				getPresenter().pauseGame();
-			}
-		});
-		mReset.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View v) {
-				getPresenter().resetGame();
 			}
 		});
 
@@ -124,6 +115,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 				break;
 			case R.id.action_inject_glider:
 				getPresenter().injectGlider();
+				result = true;
+				break;
+			case R.id.action_inject_diehard:
+				getPresenter().injectDiehard();
 				result = true;
 				break;
 		}

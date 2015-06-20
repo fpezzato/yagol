@@ -18,4 +18,7 @@ public interface MainActivityPresenter<VIEW extends MvpView, STATE extends MvpSt
 	void injectRPentomino();
 
 	void injectGlider();
+
+	void injectDiehard();
+
 }

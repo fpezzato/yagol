@@ -11,4 +11,8 @@
             android:title="@string/action_inject_Glider"
             android:orderInCategory="101"
             app:showAsAction="never"/>
+      <item android:id="@+id/action_inject_diehard"
+            android:title="@string/action_inject_Diehard"
+            android:orderInCategory="102"
+            app:showAsAction="never"/>
 </menu>

@@ -123,7 +123,7 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 	@Override
 	public void injectRPentomino() {
 		resetGame();
-		int averageMid = Math.min(MATRIX_HEIGHT, MATRIX_WIDTH) / 2;
+		int averageMid = getMidPoint();
 
 		mMatrix[averageMid + 0][averageMid + 0] = false;
 		mMatrix[averageMid + 0][averageMid + 1] = true;
@@ -141,6 +141,7 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 
 	@Override
 	public void injectGlider() {
+		resetGame();
 		//Glider
 		mMatrix[0][0] = true;
 		mMatrix[0][2] = true;
@@ -149,5 +150,24 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 		mMatrix[2][1] = true;
 		getMvpView().drawMatrix(mMatrix);
 
+	}
+
+	@Override
+	public void injectDiehard() {
+		resetGame();
+		int averageMid = getMidPoint();
+		mMatrix[averageMid + 0][averageMid + 6] = true;
+		mMatrix[averageMid + 1][averageMid + 0] = true;
+		mMatrix[averageMid + 1][averageMid + 1] = true;
+		mMatrix[averageMid + 2][averageMid + 1] = true;
+		mMatrix[averageMid + 2][averageMid + 5] = true;
+		mMatrix[averageMid + 2][averageMid + 6] = true;
+		mMatrix[averageMid + 2][averageMid + 7] = true;
+
+		getMvpView().drawMatrix(mMatrix);
+	}
+
+	private int getMidPoint() {
+		return Math.min(MATRIX_HEIGHT, MATRIX_WIDTH) / 2;
 	}
 }
