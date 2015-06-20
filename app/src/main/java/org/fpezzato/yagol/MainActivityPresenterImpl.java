@@ -101,7 +101,7 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 	public void start() {
 		getMvpView().drawMatrix(mMatrix);
 
-		timer.schedule(timerTask, INTERVAL, INTERVAL);
+		//timer.schedule(timerTask, INTERVAL, INTERVAL);
 	}
 
 	@Override
