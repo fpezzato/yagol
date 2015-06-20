@@ -56,13 +56,26 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 			mMatrix[1][1] =  true;
 			mMatrix[2][1] =  true;
 */
-			//Glider
+		/*	//Glider
 			mMatrix[0][0] = true;
 			mMatrix[0][2] = true;
 			mMatrix[1][1] = true;
 			mMatrix[1][2] = true;
 			mMatrix[2][1] = true;
+*/
 
+			//The R-pentomino
+			mMatrix[30][30] = false;
+			mMatrix[30][31] = true;
+			mMatrix[30][32] = true;
+
+			mMatrix[31][30] = true;
+			mMatrix[31][31] = true;
+			mMatrix[31][32] = false;
+
+			mMatrix[32][30] = false;
+			mMatrix[32][31] = true;
+			mMatrix[32][32] = false;
 
 			/*
 
