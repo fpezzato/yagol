@@ -16,4 +16,6 @@ public interface MainActivityPresenter<VIEW extends MvpView, STATE extends MvpSt
 	void resetGame();
 
 	void injectRPentomino();
+
+	void injectGlider();
 }

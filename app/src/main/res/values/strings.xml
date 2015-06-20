@@ -17,4 +17,5 @@
 
 
     <string name="action_inject_R_penomino">R-Pentomino</string>
+    <string name="action_inject_Glider">Glider</string>
 </resources>

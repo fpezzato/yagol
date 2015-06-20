@@ -15,12 +15,11 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.common.base.Preconditions;
-
 import org.fpezzato.yagol.mvp.MvpState;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.android.internal.Preconditions;
 
 import static android.graphics.Typeface.ITALIC;
 
@@ -117,13 +116,19 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
-
-		if (id == R.id.action_inject_r_pentomino) {
-			getPresenter().injectRPentomino();
-			return true;
+		boolean result = false;
+		switch (id) {
+			case R.id.action_inject_r_pentomino:
+				getPresenter().injectRPentomino();
+				result = true;
+				break;
+			case R.id.action_inject_glider:
+				getPresenter().injectGlider();
+				result = true;
+				break;
 		}
 
-		return super.onOptionsItemSelected(item);
+		return result || super.onOptionsItemSelected(item);
 	}
 
 	public MainActivityPresenter getPresenter() {
@@ -166,9 +171,9 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 		return stringBuilder;
 	}
 
-	private void addBulletSpan(SpannableStringBuilder stringBuilder, @StringRes int...values){
+	private void addBulletSpan(SpannableStringBuilder stringBuilder, @StringRes int... values) {
 
-		for(int value : values) {
+		for (int value : values) {
 			stringBuilder.append("\n");
 			String s = getString(value);
 			stringBuilder.append(s);

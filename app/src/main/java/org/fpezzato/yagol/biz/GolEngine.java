@@ -1,9 +1,11 @@
 package org.fpezzato.yagol.biz;
 
 
+import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
-import com.google.common.base.Preconditions;
+import rx.android.internal.Preconditions;
+
 
 /**
  * Created by francesco on 17/06/2015.
@@ -17,8 +19,8 @@ public class GolEngine {
 	 * Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 	 */
 
-	public Boolean[][] computeGeneration(final Boolean[][] matrix) {
-		Preconditions.checkNotNull(matrix);
+	public Boolean[][] computeGeneration(@NonNull final Boolean[][] matrix) {
+		Preconditions.checkNotNull(matrix, "When computing a generation matrix cannot be null");
 
 		int sizeX = matrix.length;
 		int sizeY = matrix[0].length;
@@ -42,7 +44,6 @@ public class GolEngine {
 
 	@VisibleForTesting
 	public int computeNeighboursCount(Boolean[][] matrix, int x, int y) {
-		///TODO - optimization: when more than 3, just break. It's useless to know the exact value.
 		int result = 0;
 		if (matrix.length > 0 && matrix[0].length > 0) {
 			for (int i = x - 1; i <= x + 1; i++) {

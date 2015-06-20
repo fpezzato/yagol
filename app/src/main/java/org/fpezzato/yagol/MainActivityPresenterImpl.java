@@ -139,14 +139,15 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 		getMvpView().drawMatrix(mMatrix);
 	}
 
+	@Override
 	public void injectGlider() {
-		/*	//Glider
-			mMatrix[0][0] = true;
-			mMatrix[0][2] = true;
-			mMatrix[1][1] = true;
-			mMatrix[1][2] = true;
-			mMatrix[2][1] = true;
-*/
+		//Glider
+		mMatrix[0][0] = true;
+		mMatrix[0][2] = true;
+		mMatrix[1][1] = true;
+		mMatrix[1][2] = true;
+		mMatrix[2][1] = true;
+		getMvpView().drawMatrix(mMatrix);
 
 	}
 }

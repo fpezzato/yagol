@@ -10,7 +10,7 @@ import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
 
-import com.google.common.base.Preconditions;
+import rx.android.internal.Preconditions;
 
 import static android.content.Context.WINDOW_SERVICE;
 
@@ -54,7 +54,7 @@ public class MatrixView extends View {
 
 	@Override
 	protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
-		Preconditions.checkNotNull(mData);
+		Preconditions.checkNotNull(mData,"mData cannot be null");
 		Preconditions.checkArgument(mData.length > 0, "Cannot accept a matrix with no rows");
 		Preconditions.checkArgument(mData[0].length > 0, "Cannot accept a matrix with no columns");
 
