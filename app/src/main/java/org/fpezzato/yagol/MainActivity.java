@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 import com.google.common.base.Preconditions;
 
@@ -23,6 +24,14 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 	@InjectView(R.id.activity_main_toolbar)
 	Toolbar mToolbar;
 
+	@InjectView(R.id.controller_play)
+	View mPlay;
+
+	@InjectView(R.id.controller_pause)
+	View mPause;
+
+	@InjectView(R.id.controller_reset)
+	View mReset;
 
 	public MainActivity withPresenter(MainActivityPresenter presenter) {
 		this.mPresenter = presenter;
@@ -39,6 +48,26 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 		}
 
 		ButterKnife.inject(this);
+		mPlay.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				getPresenter().playGame();
+			}
+		});
+		mPause.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				getPresenter().pauseGame();
+			}
+		});
+
+		mReset.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				getPresenter().resetGame();
+			}
+		});
+
 		getPresenter().initialize(this, new MvpState(savedInstanceState));
 
 		setSupportActionBar(mToolbar);

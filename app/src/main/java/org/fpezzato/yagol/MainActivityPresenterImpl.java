@@ -3,6 +3,7 @@ package org.fpezzato.yagol;
 import android.os.Handler;
 import android.util.Log;
 
+import org.fpezzato.yagol.biz.ArrayUtils;
 import org.fpezzato.yagol.biz.GolEngine;
 import org.fpezzato.yagol.mvp.BaseMvpPresenter;
 import org.fpezzato.yagol.mvp.MvpState;
@@ -23,21 +24,14 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 
 	private static final int INTERVAL = 100; //100 millisec clock tick.
 
+	private Timer mTimer;
+
+	private final static int MATRIX_HEIGHT = 100;
+	private final static int MATRIX_WIDTH = 100;
+
 	final Handler handler = new Handler();
-	Timer timer = new Timer(false);
-	TimerTask timerTask = new TimerTask() {
-		@Override
-		public void run() {
-			handler.post(new Runnable() {
-				@Override
-				public void run() {
-					Log.d("->MainActivityP", "tick");
-					mMatrix = mGolEngine.computeGeneration(mMatrix);
-					getMvpView().drawMatrix(mMatrix);
-				}
-			});
-		}
-	};
+	private TimerTask mTimerTask;
+
 
 	@Override
 	public void initialize(MainActivityView view, MvpState state) {
@@ -52,7 +46,7 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 			//Range<Integer> columns = Range.closed(0, 100);
 			//mMatrix = ArrayTable.create(ContiguousSet.create(rows, DiscreteDomain.integers()), ContiguousSet.create(columns, DiscreteDomain.integers()));
 
-			mMatrix = new Boolean[100][100];
+			mMatrix = ArrayUtils.getEmptyMatrix(MATRIX_HEIGHT, MATRIX_WIDTH);
 			/*Arrays.fill(mMatrix[0],false);
 
 			Arrays.fill(mMatrix[1],false);
@@ -63,11 +57,11 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 			mMatrix[2][1] =  true;
 */
 			//Glider
-			mMatrix[0][0] =  true;
-			mMatrix[0][2] =  true;
-			mMatrix[1][1] =  true;
-			mMatrix[1][2] =  true;
-			mMatrix[2][1] =  true;
+			mMatrix[0][0] = true;
+			mMatrix[0][2] = true;
+			mMatrix[1][1] = true;
+			mMatrix[1][2] = true;
+			mMatrix[2][1] = true;
 
 
 			/*
@@ -109,5 +103,40 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 
 	}
 
+	@Override
+	public void playGame() {
+		pauseGame();
+		mTimer = new Timer(false);
 
+		mTimerTask = new TimerTask() {
+			@Override
+			public void run() {
+				handler.post(new Runnable() {
+					@Override
+					public void run() {
+						Log.d("->MainActivityP", "tick");
+						mMatrix = mGolEngine.computeGeneration(mMatrix);
+						getMvpView().drawMatrix(mMatrix);
+					}
+				});
+			}
+		};
+
+		mTimer.schedule(mTimerTask, INTERVAL, INTERVAL);
+	}
+
+	@Override
+	public void pauseGame() {
+		if (mTimer != null) {
+			mTimer.cancel();
+			mTimer.purge();
+			mTimerTask.cancel();
+		}
+	}
+
+	@Override
+	public void resetGame() {
+		pauseGame();
+		mMatrix = ArrayUtils.getEmptyMatrix(MATRIX_HEIGHT, MATRIX_WIDTH);
+	}
 }
