@@ -1,7 +1,7 @@
 # yagol - Yet Another Game of Life
 
 #### TL;DR:
-This is a _tiny_ experiment arount Android development. 
+This is a _tiny_ demo around Android development. 
 Involved in this repo:
 - MVP architecture
 - Custom View
