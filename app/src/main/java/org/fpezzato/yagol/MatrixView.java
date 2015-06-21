@@ -118,8 +118,8 @@ public class MatrixView extends View {
 			int totalPaddingHeight = getPaddingTop() + getPaddingBottom();
 			int totalPaddingWidth = getPaddingLeft() + getPaddingRight();
 			if (!(screenHeight < dataHeight + totalPaddingHeight || screenWidth < dataWidth + totalPaddingWidth)) {
-				while (screenHeight > (dataHeight * mZoomLevel) + totalPaddingHeight
-					&& screenWidth > (dataWidth * mZoomLevel) + totalPaddingWidth) {
+				while (screenHeight > (dataHeight * (mZoomLevel + 1)) + totalPaddingHeight
+					&& screenWidth > (dataWidth * (mZoomLevel + 1)) + totalPaddingWidth) {
 					mZoomLevel++;
 				}
 			}

@@ -1,7 +1,6 @@
 package org.fpezzato.yagol;
 
 import android.os.Handler;
-import android.util.Log;
 
 import org.fpezzato.yagol.biz.ArrayUtils;
 import org.fpezzato.yagol.biz.GolEngine;
@@ -91,7 +90,6 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 				handler.post(new Runnable() {
 					@Override
 					public void run() {
-						Log.d("->MainActivityP", "tick");
 						Generation nextGen = mGolEngine.computeGeneration(mMatrix);
 						if(!nextGen.isAtLeastOneAlive()){
 							pauseGame();
