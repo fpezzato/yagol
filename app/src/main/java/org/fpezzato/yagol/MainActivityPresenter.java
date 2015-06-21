@@ -21,4 +21,6 @@ public interface MainActivityPresenter<VIEW extends MvpView, STATE extends MvpSt
 
 	void injectDiehard();
 
+	void injectAcorn();
+
 }

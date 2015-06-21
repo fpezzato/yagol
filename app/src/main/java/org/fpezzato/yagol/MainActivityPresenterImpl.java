@@ -91,10 +91,9 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 					@Override
 					public void run() {
 						Generation nextGen = mGolEngine.computeGeneration(mMatrix);
-						if(!nextGen.isAtLeastOneAlive()){
+						if (!nextGen.isAtLeastOneAlive()) {
 							pauseGame();
-						}
-						else {
+						} else {
 							mMatrix = nextGen.getMatrix();
 							getMvpView().drawMatrix(mMatrix);
 						}
@@ -168,6 +167,23 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 		mMatrix[averageMid + 2][averageMid + 5] = true;
 		mMatrix[averageMid + 2][averageMid + 6] = true;
 		mMatrix[averageMid + 2][averageMid + 7] = true;
+
+		getMvpView().drawMatrix(mMatrix);
+	}
+
+	@Override
+	public void injectAcorn() {
+		resetGame();
+		int averageMid = getMidPoint();
+
+		mMatrix[averageMid + 0][averageMid + 1] = true;
+		mMatrix[averageMid + 1][averageMid + 3] = true;
+		mMatrix[averageMid + 2][averageMid + 0] = true;
+		mMatrix[averageMid + 2][averageMid + 1] = true;
+		mMatrix[averageMid + 2][averageMid + 4] = true;
+		mMatrix[averageMid + 2][averageMid + 5] = true;
+		mMatrix[averageMid + 2][averageMid + 6] = true;
+
 
 		getMvpView().drawMatrix(mMatrix);
 	}

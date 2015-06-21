@@ -121,6 +121,10 @@ public class MainActivity extends AppCompatActivity implements MainActivityView 
 				getPresenter().injectDiehard();
 				result = true;
 				break;
+			case R.id.action_inject_acorn:
+				getPresenter().injectAcorn();
+				result = true;
+				break;
 		}
 
 		return result || super.onOptionsItemSelected(item);
