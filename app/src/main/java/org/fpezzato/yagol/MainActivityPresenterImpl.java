@@ -5,6 +5,7 @@ import android.util.Log;
 
 import org.fpezzato.yagol.biz.ArrayUtils;
 import org.fpezzato.yagol.biz.GolEngine;
+import org.fpezzato.yagol.model.Generation;
 import org.fpezzato.yagol.mvp.BaseMvpPresenter;
 import org.fpezzato.yagol.mvp.MvpState;
 
@@ -91,8 +92,14 @@ public class MainActivityPresenterImpl extends BaseMvpPresenter<MainActivityView
 					@Override
 					public void run() {
 						Log.d("->MainActivityP", "tick");
-						mMatrix = mGolEngine.computeGeneration(mMatrix);
-						getMvpView().drawMatrix(mMatrix);
+						Generation nextGen = mGolEngine.computeGeneration(mMatrix);
+						if(!nextGen.isAtLeastOneAlive()){
+							pauseGame();
+						}
+						else {
+							mMatrix = nextGen.getMatrix();
+							getMvpView().drawMatrix(mMatrix);
+						}
 					}
 				});
 			}

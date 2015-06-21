@@ -3,6 +3,7 @@ package org.fpezzato.yagol;
 import android.test.suitebuilder.annotation.SmallTest;
 
 import org.fpezzato.yagol.biz.GolEngine;
+import org.fpezzato.yagol.model.Generation;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -216,16 +217,16 @@ public class GolEngineTest {
 		matrix[2][1] = true;
 
 		//When compute one generation
-		Boolean[][] nextGen = mSubject.computeGeneration(matrix);
+		Generation nextGen = mSubject.computeGeneration(matrix);
 
-		assertEquals(nextGen[0][0],false);
-		assertEquals(nextGen[0][1],false);
-		assertEquals(nextGen[0][2],false);
-		assertEquals(nextGen[1][0],true);
-		assertEquals(nextGen[1][1],true);
-		assertEquals(nextGen[1][2],true);
-		assertEquals(nextGen[2][0],false);
-		assertEquals(nextGen[2][1],false);
-		assertEquals(nextGen[2][2],false);
+		assertEquals(nextGen.getMatrix()[0][0],false);
+		assertEquals(nextGen.getMatrix()[0][1],false);
+		assertEquals(nextGen.getMatrix()[0][2],false);
+		assertEquals(nextGen.getMatrix()[1][0],true);
+		assertEquals(nextGen.getMatrix()[1][1],true);
+		assertEquals(nextGen.getMatrix()[1][2],true);
+		assertEquals(nextGen.getMatrix()[2][0],false);
+		assertEquals(nextGen.getMatrix()[2][1],false);
+		assertEquals(nextGen.getMatrix()[2][2],false);
 	}
 }

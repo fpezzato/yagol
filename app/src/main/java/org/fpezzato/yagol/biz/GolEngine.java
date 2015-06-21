@@ -4,6 +4,8 @@ package org.fpezzato.yagol.biz;
 import android.support.annotation.NonNull;
 import android.support.annotation.VisibleForTesting;
 
+import org.fpezzato.yagol.model.Generation;
+
 import rx.android.internal.Preconditions;
 
 
@@ -19,9 +21,9 @@ public class GolEngine {
 	 * Any dead cell with exactly three live neighbours becomes a live cell, as if by reproduction.
 	 */
 
-	public Boolean[][] computeGeneration(@NonNull final Boolean[][] matrix) {
+	public Generation computeGeneration(@NonNull final Boolean[][] matrix) {
 		Preconditions.checkNotNull(matrix, "When computing a generation matrix cannot be null");
-
+		boolean oneAlive = false;
 		int sizeX = matrix.length;
 		int sizeY = matrix[0].length;
 
@@ -36,35 +38,38 @@ public class GolEngine {
 				} else if (neighboursCount == 3) {
 					alive = true;
 				}
+				if (!oneAlive) {
+					oneAlive = alive;
+				}
 				nextGen[i][j] = alive;
 			}
 		}
-		return nextGen;
+		return new Generation(nextGen, oneAlive);
 	}
 
 	/**
 	 * We a re not interested in the full count, we just need to know the real count up tp 3. More than that is a redundant info.
 	 *
-	 * @return the beest effort count of the neighbours.
+	 * @return the best effort count of the neighbours.
 	 */
 	@VisibleForTesting
 	public int computeBestEffortNeighboursCount(Boolean[][] matrix, int x, int y) {
 		int result = 0;
-		outerloop:
 		if (matrix.length > 0 && matrix[0].length > 0) {
-			for (int i = x - 1; i <= x + 1; i++) {
-				for (int j = y - 1; j <= y + 1; j++) {
+			loop:
+			{
+				for (int i = x - 1; i <= x + 1; i++) {
+					for (int j = y - 1; j <= y + 1; j++) {
 
-					if (!((i == x && j == y) || i < 0 || j < 0 || i > matrix.length - 1 || j > matrix[0].length - 1)) {
-						result += matrix[i][j] != null && matrix[i][j]
-							? 1 : 0;
-						if (result > 3) {
-							break outerloop;
+						if (!((i == x && j == y) || i < 0 || j < 0 || i > matrix.length - 1 || j > matrix[0].length - 1)) {
+							result += matrix[i][j] != null && matrix[i][j]
+								? 1 : 0;
+							if (result > 3) {
+								break loop;
+							}
 						}
 					}
-
 				}
-
 			}
 		}
 		return result;
