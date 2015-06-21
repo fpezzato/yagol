@@ -15,4 +15,8 @@
             android:title="@string/action_inject_Diehard"
             android:orderInCategory="102"
             app:showAsAction="never"/>
+    <item android:id="@+id/action_inject_acorn"
+          android:title="@string/action_inject_Acorn"
+          android:orderInCategory="102"
+          app:showAsAction="never"/>
 </menu>
